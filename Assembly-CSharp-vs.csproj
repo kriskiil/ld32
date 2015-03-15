@@ -49,14 +49,14 @@
      <Compile Include="Assets\Scripts\Agent.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\EnumerableExtensions.cs" />
-     <Compile Include="Assets\Scripts\Populator.cs" />
+     <Compile Include="Assets\Scripts\GameSystem.cs" />
+     <Compile Include="Assets\Scripts\Infection.cs" />
      <Compile Include="Assets\Scripts\StartLocation.cs" />
      <Compile Include="Assets\Scripts\Symptom.cs" />
      <Compile Include="Assets\Scripts\TargetChanger.cs" />
      <Compile Include="Assets\Scripts\Targetable.cs" />
      <Compile Include="Assets\Scripts\Trait.cs" />
      <Compile Include="Assets\Scripts\Zone.cs" />
-     <Compile Include="Assets\Scripts\ZoneCreator.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

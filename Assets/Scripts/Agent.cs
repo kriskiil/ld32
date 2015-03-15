@@ -9,6 +9,7 @@ public class Agent : Targetable {
 	public float speed;
 	[HideInInspector]
 	public float curspeed;
+	public bool sick;
 	static IEnumerable<Trait> traits;
 	static IEnumerable<Symptom> symptoms;
 	// Use this for initialization
@@ -16,6 +17,7 @@ public class Agent : Targetable {
 		this.curspeed = this.speed;
 		Agent.traits = Trait.traits.Shuffle().Take(3);
 		Agent.symptoms = Symptom.symptoms.Shuffle ().Take (3);
+
 	}
 	
 	// Update is called once per frame
@@ -26,5 +28,11 @@ public class Agent : Targetable {
 		}
 	}
 
+	public override void Clicked ()
+	{
+		List<Trait> buffer = Agent.traits.ToList ();
+		for (int i =0; i<buffer.Count; i++)
+			print (buffer [i].name);
+	}
 
 }

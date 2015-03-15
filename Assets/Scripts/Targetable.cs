@@ -20,7 +20,10 @@ public class Targetable : MonoBehaviour,IPointerClickHandler {
 	{
 		print (this.name);
 		CameraController.Follow (this.transform);
+		this.Clicked();
 	}
-	
+	public virtual void Clicked(){
+
+	}
 
 }
