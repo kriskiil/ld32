@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
-public class Zone : Targetable {
+public class Node : MonoBehaviour {
+
 	// Use this for initialization
-	public int radius;
 	void Start () {
-
+	
 	}
 	
 	// Update is called once per frame

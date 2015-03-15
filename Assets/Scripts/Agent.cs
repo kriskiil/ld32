@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-//using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +18,7 @@ public class Agent : Targetable {
 	void Start () {
 		//Initialize movement
 		this.curspeed = this.speed;
+		this.delay = 1f;
 
 		//Initialize infection related
 		Agent.traits = Trait.traits.Shuffle().Take(3);
@@ -36,9 +36,9 @@ public class Agent : Targetable {
 		// Billboard stuff in the direction of the camera
 		this.transform.LookAt (CameraController.instance.transform);
 		// Test if we should move in a different node
-		bool areWeThereYet = (this.transform.position - node.transform.position).sqrMagnitude 
-			< Mathf.Pow (node.transform.localScale.x, 2);
-		if (!quarantined && areWeThereYet && Random.value < zoneShiftProbability) {
+		bool areWeThereYet = (this.transform.position - this.node.transform.position).sqrMagnitude 
+			< Mathf.Pow (this.node.radius, 2);
+		if (!quarantined && areWeThereYet && Random.value < zoneShiftProbability*Time.deltaTime) {
 			this.ChangeNode ();
 		}
 		if (areWeThereYet) {
@@ -51,15 +51,16 @@ public class Agent : Targetable {
 
 	}
 	void ChangeNode(){
-		node=GameSystem.instance.zones.Shuffle().ToList()[0];
+		this.node=GameSystem.instance.zones.Shuffle().ToList()[0];
 	}
 	void Loiter(){
 		this.progress += Time.deltaTime;
-		if (progress < delay) {
-			this.curspeed=Random.Range(0f,3f);
-			this.delay=Random.Range (1f,2f);
-			Vector2 pos=Random.insideUnitCircle*node.transform.localScale.x;
-			this.destination= new Vector3(pos.x,0,pos.y)+node.transform.position;
+		if (progress > delay) {
+			this.curspeed=Random.Range(2f,4f);
+			this.delay=Random.Range (1f,4f);
+			Vector2 pos=Random.insideUnitCircle*node.radius;
+			this.destination= new Vector3(pos.x,0,pos.y)+this.node.transform.position;
+			progress=0;
 		}
 		this.Move (this.destination);
 	}
