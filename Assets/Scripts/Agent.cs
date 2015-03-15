@@ -68,13 +68,15 @@ public class Agent : Targetable {
 		this.transform.position -= (this.transform.position - destination).normalized * curspeed * Time.deltaTime;
 	}
 
+	public void quarantine(){
+		this.node = GameSystem.instance.quarantine;
+		this.quarantined = true;
+	}
 	public override void Clicked ()
 	{
 		List<Trait> buffer = Agent.traits.ToList ();
 		for (int i =0; i<buffer.Count; i++)
 			print (buffer [i].name);
-		this.node = GameSystem.instance.quarantine;
-		this.quarantined = true;
 	}
 
 }
