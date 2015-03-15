@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 //using System.Collections;
-//using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 public class Agent : Targetable {
@@ -9,8 +9,8 @@ public class Agent : Targetable {
 	public float speed;
 	[HideInInspector]
 	public float curspeed;
-	static Trait[] traits;
-	static Symptom[] symptoms;
+	static IEnumerable<Trait> traits;
+	static IEnumerable<Symptom> symptoms;
 	// Use this for initialization
 	void Start () {
 		this.curspeed = this.speed;
