@@ -51,9 +51,9 @@
      <Compile Include="Assets\Scripts\EnumerableExtensions.cs" />
      <Compile Include="Assets\Scripts\GameSystem.cs" />
      <Compile Include="Assets\Scripts\Infection.cs" />
+     <Compile Include="Assets\Scripts\Node.cs" />
      <Compile Include="Assets\Scripts\StartLocation.cs" />
      <Compile Include="Assets\Scripts\Symptom.cs" />
-     <Compile Include="Assets\Scripts\TargetChanger.cs" />
      <Compile Include="Assets\Scripts\Targetable.cs" />
      <Compile Include="Assets\Scripts\Trait.cs" />
      <Compile Include="Assets\Scripts\Zone.cs" />
