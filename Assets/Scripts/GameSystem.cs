@@ -37,6 +37,8 @@ public class GameSystem : MonoBehaviour {
 		}
 		if (randomInfection) {
 			infection = new Infection ();
+			infection.infected=new List<Agent>();
+			GameObject.FindObjectOfType<Agent>().Infect(infection);
 		}
 	}
 	

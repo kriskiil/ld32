@@ -48,8 +48,21 @@ public class Agent : Targetable {
 			this.Move (node.transform.position);
 		}
 		// Check if we get infected
-		if (this.sick) {
-			this.BroadcastMessage("Infect",this.transform);
+		Infection infection = GameSystem.instance.infection;
+		if (!this.sick && 
+		    this.traits.Contains<Trait>(infection.susceptibility) && 
+		    ! this.traits.Contains<Trait>(infection.protection)) 
+		{
+			List<Agent> infected = GameSystem.instance.infection.infected;
+			for(int i =0;i<infected.Count;i++){
+				if((this.transform.position - infection.infected[i].transform.position).sqrMagnitude 
+				   < Mathf.Pow(infection.transmitRange,2f)
+				   && Random.Range(0f,1f)<infection.transmitProbability*Time.deltaTime){
+					this.Infect(infection);
+					break;
+				}
+			}
+		//	this.BroadcastMessage("Infect",this.transform);
 		}
 	}
 	void ChangeNode(){
@@ -80,13 +93,9 @@ public class Agent : Targetable {
 		for (int i =0; i<buffer.Count; i++)
 			print (buffer [i].name);
 	}
-	public void Infect(Transform transmitter){
-		Infection infection = GameSystem.instance.infection;
-		if ((this.transform.position - transmitter.position).sqrMagnitude<Mathf.Pow(infection.transmitRange,2f)
-		    && Random.Range(0f,1f)<infection.transmitProbability*Time.deltaTime
-		    && this.traits.Contains<Trait>(infection.susceptibility) && ! this.traits.Contains<Trait>(infection.protection)) {
-			this.sick=true;
-			this.symptoms.Add(infection.symptom);// Something is wrong here, but what?
-		}
+	public void Infect(Infection infection){
+		this.symptoms.Add(infection.symptom);
+		infection.infected.Add (this);
+		this.sick=true;
 	}
 }
