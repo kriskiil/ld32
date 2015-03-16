@@ -8,6 +8,7 @@ public class Infection {
 	public Trait protection;
 	public float transmitRange;
 	public float transmitProbability;
+	public List<Agent> infected;
 	
 	// Use this for initialization
 	public Infection () { 

@@ -12,7 +12,7 @@ public class Agent : Targetable {
 	public float zoneShiftProbability;
 	float progress;
 	IEnumerable<Trait> traits;
-	IEnumerable<Symptom> symptoms;
+	List<Symptom> symptoms;
 	public Zone node;
 	// Use this for initialization
 	void Start () {
@@ -22,7 +22,7 @@ public class Agent : Targetable {
 
 		//Initialize infection related
 		this.traits = Trait.traits.Shuffle().Take(3);
-		this.symptoms = Symptom.symptoms.Shuffle ().Take (3);
+		this.symptoms = Symptom.symptoms.Shuffle ().Take (3).ToList();
 
 		//Initialize the quarantine state
 		this.quarantined = false;
@@ -47,7 +47,7 @@ public class Agent : Targetable {
 			this.curspeed = this.speed;
 			this.Move (node.transform.position);
 		}
-		// Infect if infected
+		// Check if we get infected
 		if (this.sick) {
 			this.BroadcastMessage("Infect",this.transform);
 		}
@@ -86,7 +86,7 @@ public class Agent : Targetable {
 		    && Random.Range(0f,1f)<infection.transmitProbability*Time.deltaTime
 		    && this.traits.Contains<Trait>(infection.susceptibility) && ! this.traits.Contains<Trait>(infection.protection)) {
 			this.sick=true;
-			this.symptoms.Concat<Symptom>(new IEnumerable<Symptom>(infection.symptom));// Something is wrong here, but what?
+			this.symptoms.Add(infection.symptom);// Something is wrong here, but what?
 		}
 	}
 }
