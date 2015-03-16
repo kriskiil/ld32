@@ -11,7 +11,7 @@ public class Agent : Targetable {
 	public bool quarantined;
 	public float zoneShiftProbability;
 	float progress;
-	IEnumerable<Trait> traits;
+	List<Trait> traits;
 	List<Symptom> symptoms;
 	public Zone node;
 	// Use this for initialization
@@ -21,8 +21,9 @@ public class Agent : Targetable {
 		this.delay = 1f;
 
 		//Initialize infection related
-		this.traits = Trait.traits.Shuffle().Take(3);
-		this.symptoms = Symptom.symptoms.Shuffle ().Take (3).ToList();
+		this.traits = Trait.traits.Shuffle().Take(3).ToList ();
+		//this.symptoms = Symptom.symptoms.Shuffle ().Take (3).ToList();
+		this.symptoms = new List<Symptom>();
 
 		//Initialize the quarantine state
 		this.quarantined = false;
@@ -58,7 +59,7 @@ public class Agent : Targetable {
 				if((this.transform.position - infection.infected[i].transform.position).sqrMagnitude 
 				   < Mathf.Pow(infection.transmitRange,2f)
 				   && Random.Range(0f,1f)<infection.transmitProbability*Time.deltaTime){
-					this.Infect(infection);
+					this.Infect(GameSystem.instance.infection);
 					break;
 				}
 			}
@@ -97,5 +98,14 @@ public class Agent : Targetable {
 		this.symptoms.Add(infection.symptom);
 		infection.infected.Add (this);
 		this.sick=true;
+		this.ChangeColor(new Color(1,0,0));
+	}
+	public void ChangeSprite(Sprite sprite){
+		SpriteRenderer renderer = this.GetComponentInChildren<SpriteRenderer> ();
+		renderer.sprite = sprite;
+	}
+	public void ChangeColor(Color color){
+		SpriteRenderer renderer = this.GetComponentInChildren<SpriteRenderer> ();
+		renderer.color = color;
 	}
 }

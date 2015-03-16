@@ -17,7 +17,6 @@ public class GameSystem : MonoBehaviour {
 	public GameObject prefabAgent;
 	public int population;
 	public bool randomInfection;
-	[HideInInspector]
 	public Infection infection;
 	public GameObject prefabQuarantine;
 	public List<Zone> zones;
@@ -36,9 +35,10 @@ public class GameSystem : MonoBehaviour {
 			Instantiate (prefabAgent) ;
 		}
 		if (randomInfection) {
-			infection = new Infection ();
-			infection.infected=new List<Agent>();
-			GameObject.FindObjectOfType<Agent>().Infect(infection);
+			this.infection = new Infection ();
+			print (this.infection);
+			this.infection.infected=new List<Agent>();
+			GameObject.FindObjectOfType<Agent>().Infect(this.infection);
 		}
 	}
 	

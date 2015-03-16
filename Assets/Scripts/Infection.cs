@@ -17,12 +17,12 @@ public class Infection {
 		this.susceptibility= traits[0];
 		this.protection=traits[1];
 	}
-	public Infection(Symptom sympton,Trait susceptibility,Trait protection) {
-		this.symptom = symptom;
-		this.susceptibility = susceptibility;
-		this.protection = protection;
-	}
-
+//	public Infection(Symptom sympton,Trait susceptibility,Trait protection) {
+//		this.symptom = symptom;
+//		this.susceptibility = susceptibility;
+//		this.protection = protection;
+//	}
+//
 	// Update is called once per frame
 	void Update () {
 	
