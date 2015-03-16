@@ -1,6 +1,6 @@
 Temp/
 Library/
-
+Obj/
 ExportedObj
 obj
 *.svd

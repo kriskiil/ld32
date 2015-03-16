@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 	public float speed;
+	public float minHeight;
 	private static CameraController _instance;
 	public static CameraController instance{
 		get{
@@ -29,7 +30,7 @@ public class CameraController : MonoBehaviour {
 			Vector3 lookdirection = this.transform.position-CameraController.target.position;
 			float xRotation = Mathf.Asin (lookdirection.normalized.y)*Mathf.Rad2Deg;
 			localRotation.x=xRotation;
-			this.transform.localRotation= Quaternion.Lerp (this.transform.localRotation,Quaternion.Euler(localRotation),Time.deltaTime);
+			this.transform.localRotation= Quaternion.Lerp (this.transform.localRotation,Quaternion.Euler(localRotation),Time.deltaTime*this.speed);
 		}
 	}
 
@@ -37,6 +38,10 @@ public class CameraController : MonoBehaviour {
 		// Changes z axis and keeps target in centre of view
 
 		this.offset += Vector3.up * -up* (this.transform.position-CameraController.target.position).magnitude;
+		if (this.offset.y < this.minHeight) {
+			this.offset.y = this.minHeight;
+		}
+
 	}
 
 	public static void Follow(Transform target) {

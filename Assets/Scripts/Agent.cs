@@ -5,37 +5,32 @@ using System.Linq;
 public class Agent : Targetable {
 	Vector3 destination;
 	public float speed;
-	float delay;
+	float delay = 1f;
 	float curspeed;
-	public bool sick;
-	public bool quarantined;
+	public bool sick=false;
+	public bool quarantined=false;
 	public float zoneShiftProbability;
 	float progress;
 	List<Trait> traits;
-	List<Symptom> symptoms;
+	List<Symptom> symptoms = new List<Symptom>();
 	public Zone node;
+	private Sprite sprite;
 	// Use this for initialization
 	void Start () {
 		//Initialize movement
 		this.curspeed = this.speed;
-		this.delay = 1f;
 
 		//Initialize infection related
 		this.traits = Trait.traits.Shuffle().Take(3).ToList ();
-		//this.symptoms = Symptom.symptoms.Shuffle ().Take (3).ToList();
-		this.symptoms = new List<Symptom>();
-
-		//Initialize the quarantine state
-		this.quarantined = false;
 		//Initialize the first node this agent belongs to
-		node = GameSystem.instance.zones.Shuffle().ToList()[0];
-
+		this.node = GameSystem.instance.zones.Shuffle().ToList()[0];
+		this.sprite = this.GetComponentInChildren<Sprite> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		// Billboard stuff in the direction of the camera
-		this.transform.LookAt (CameraController.instance.transform);
+		this.sprite.transform.LookAt (CameraController.instance.transform);
 		// Test if we should move in a different node
 		bool areWeThereYet = (this.transform.position - this.node.transform.position).sqrMagnitude 
 			< Mathf.Pow (this.node.radius, 2);
@@ -63,7 +58,6 @@ public class Agent : Targetable {
 					break;
 				}
 			}
-		//	this.BroadcastMessage("Infect",this.transform);
 		}
 	}
 	void ChangeNode(){
@@ -100,8 +94,8 @@ public class Agent : Targetable {
 		this.sick=true;
 		this.ChangeColor(new Color(1,0,0));
 	}
-	public void ChangeSprite(Sprite sprite){
-		SpriteRenderer renderer = this.GetComponentInChildren<SpriteRenderer> ();
+	public void ChangeSprite(UnityEngine.Sprite sprite){
+		SpriteRenderer renderer = this.GetComponent<SpriteRenderer>();
 		renderer.sprite = sprite;
 	}
 	public void ChangeColor(Color color){

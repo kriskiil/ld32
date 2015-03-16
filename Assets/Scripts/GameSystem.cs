@@ -36,7 +36,7 @@ public class GameSystem : MonoBehaviour {
 		}
 		if (randomInfection) {
 			this.infection = new Infection ();
-			print (this.infection);
+			this.infection.MakeInfectious();
 			this.infection.infected=new List<Agent>();
 			GameObject.FindObjectOfType<Agent>().Infect(this.infection);
 		}
