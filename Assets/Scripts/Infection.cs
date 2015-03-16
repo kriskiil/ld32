@@ -6,6 +6,8 @@ public class Infection {
 	public Symptom symptom;
 	public Trait susceptibility;
 	public Trait protection;
+	public float transmitRange;
+	public float transmitProbability;
 	
 	// Use this for initialization
 	public Infection () { 

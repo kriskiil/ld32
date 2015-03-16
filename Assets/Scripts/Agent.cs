@@ -11,8 +11,8 @@ public class Agent : Targetable {
 	public bool quarantined;
 	public float zoneShiftProbability;
 	float progress;
-	static IEnumerable<Trait> traits;
-	static IEnumerable<Symptom> symptoms;
+	IEnumerable<Trait> traits;
+	IEnumerable<Symptom> symptoms;
 	public Zone node;
 	// Use this for initialization
 	void Start () {
@@ -21,8 +21,8 @@ public class Agent : Targetable {
 		this.delay = 1f;
 
 		//Initialize infection related
-		Agent.traits = Trait.traits.Shuffle().Take(3);
-		Agent.symptoms = Symptom.symptoms.Shuffle ().Take (3);
+		this.traits = Trait.traits.Shuffle().Take(3);
+		this.symptoms = Symptom.symptoms.Shuffle ().Take (3);
 
 		//Initialize the quarantine state
 		this.quarantined = false;
@@ -47,8 +47,10 @@ public class Agent : Targetable {
 			this.curspeed = this.speed;
 			this.Move (node.transform.position);
 		}
-		// Move towards the target
-
+		// Infect if infected
+		if (this.sick) {
+			this.BroadcastMessage("Infect",this.transform);
+		}
 	}
 	void ChangeNode(){
 		this.node=GameSystem.instance.zones.Shuffle().ToList()[0];
@@ -74,9 +76,17 @@ public class Agent : Targetable {
 	}
 	public override void Clicked ()
 	{
-		List<Trait> buffer = Agent.traits.ToList ();
+		List<Trait> buffer = traits.ToList ();
 		for (int i =0; i<buffer.Count; i++)
 			print (buffer [i].name);
 	}
-
+	public void Infect(Transform transmitter){
+		Infection infection = GameSystem.instance.infection;
+		if ((this.transform.position - transmitter.position).sqrMagnitude<Mathf.Pow(infection.transmitRange,2f)
+		    && Random.Range(0f,1f)<infection.transmitProbability*Time.deltaTime
+		    && this.traits.Contains<Trait>(infection.susceptibility) && ! this.traits.Contains<Trait>(infection.protection)) {
+			this.sick=true;
+			this.symptoms.Concat<Symptom>(new IEnumerable<Symptom>(infection.symptom));// Something is wrong here, but what?
+		}
+	}
 }
